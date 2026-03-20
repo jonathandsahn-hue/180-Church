@@ -100,6 +100,53 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── PASTOR WELCOME ───────────────────────────────────── */}
+      {/* Swap PASTOR_VIDEO_ID in .env.local once video is recorded */}
+      <section className="py-24 px-6 bg-[#1a1a2e]">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          {/* Video */}
+          <div className="rounded-2xl overflow-hidden shadow-2xl aspect-video relative bg-white/5 border border-white/10 flex items-center justify-center">
+            {process.env.PASTOR_VIDEO_ID ? (
+              <iframe
+                src={`https://www.youtube.com/embed/${process.env.PASTOR_VIDEO_ID}`}
+                title="A word from our pastor"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            ) : (
+              <div className="text-center px-8">
+                <div className="w-16 h-16 rounded-full bg-[#29B9E8]/20 flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-7 h-7 text-[#29B9E8]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+                <p className="text-white/40 text-sm">Pastor welcome video coming soon</p>
+              </div>
+            )}
+          </div>
+
+          {/* Text */}
+          <div>
+            <p className="text-[#29B9E8] font-semibold text-sm uppercase tracking-widest mb-3">A Word From Our Pastor</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+              We&apos;d love to meet you.
+            </h2>
+            <p className="text-gray-400 text-lg leading-relaxed mb-8">
+              Pastor Sam and Lydia Kim founded 180 Church in 2008 with one conviction:
+              that New York City needed a place where people could truly come home.
+              That door is still open.
+            </p>
+            <Link
+              href="/im-new"
+              className="inline-block bg-[#29B9E8] text-white px-8 py-4 rounded-full font-semibold hover:bg-[#1a9fd4] transition-all"
+            >
+              Plan Your First Visit
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ─── TESTIMONIAL ──────────────────────────────────────── */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-3xl mx-auto text-center">
