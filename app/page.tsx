@@ -3,17 +3,6 @@ import Image from "next/image";
 import LatestSermon from "@/components/LatestSermon";
 import Logo from "@/components/Logo";
 
-// ----- PHOTO PLACEHOLDER -----
-// Replace PhotoPlaceholder with <Image> once you download community photos.
-// Download from: https://www.facebook.com/180church/photos (past 3 years)
-// Save to /public/photos/
-function PhotoPlaceholder({ label, className = "" }: { label: string; className?: string }) {
-  return (
-    <div className={`bg-gradient-to-br from-[#29B9E8]/20 to-[#6BAED6]/10 flex items-center justify-center text-[#29B9E8]/40 text-xs font-medium ${className}`}>
-      {label}
-    </div>
-  );
-}
 
 export default function Home() {
   return (
@@ -147,13 +136,14 @@ export default function Home() {
               <Image src="/photos/community-3.jpg" alt="180 Church kids in Central Park" fill className="object-cover scale-150 -translate-y-10 -translate-x-8" />
             </div>
             <div className="rounded-2xl overflow-hidden relative h-44">
-              <Image src="/photos/community-4.png" alt="180 Church Sunday service" fill className="object-cover" />
+              <Image src="/photos/community-4.jpg" alt="180 Church kids at AMC Union Square" fill className="object-cover" />
             </div>
-            {["Small Group", "Fellowship"].map((label, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden">
-                <PhotoPlaceholder label={label} className="w-full h-44" />
-              </div>
-            ))}
+            <div className="rounded-2xl overflow-hidden relative h-44">
+              <Image src="/photos/community-6.jpg" alt="180 Church men's retreat" fill className="object-cover scale-125 translate-y-4" />
+            </div>
+            <div className="rounded-2xl overflow-hidden relative h-44">
+              <Image src="/photos/community-7.jpg" alt="180 Church women's fellowship" fill className="object-cover" />
+            </div>
             <div className="rounded-2xl overflow-hidden relative h-44">
               <Image src="/photos/community-5.png" alt="180 Church prayer" fill className="object-cover" />
             </div>

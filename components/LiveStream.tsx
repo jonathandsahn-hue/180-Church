@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-type LiveStatus = { isLive: boolean; videoId: string | null };
+type LiveStatus = { isLive: boolean; isUpcoming: boolean; videoId: string | null };
 
 export default function LiveStream() {
-  const [status, setStatus] = useState<LiveStatus>({ isLive: false, videoId: null });
+  const [status, setStatus] = useState<LiveStatus>({ isLive: false, isUpcoming: false, videoId: null });
   const [checked, setChecked] = useState(false);
 
   async function checkLive() {
@@ -15,7 +15,7 @@ export default function LiveStream() {
       const data: LiveStatus = await res.json();
       setStatus(data);
     } catch {
-      setStatus({ isLive: false, videoId: null });
+      setStatus({ isLive: false, isUpcoming: false, videoId: null });
     } finally {
       setChecked(true);
     }
@@ -24,22 +24,21 @@ export default function LiveStream() {
   useEffect(() => {
     checkLive();
     const interval = setInterval(() => {
-      // Only poll when the tab is visible
       if (!document.hidden) checkLive();
     }, 60_000);
     return () => clearInterval(interval);
   }, []);
 
-  // Build embed URL — use specific video ID if available, otherwise live_stream fallback
+  const showEmbed = status.isLive || status.isUpcoming;
   const embedSrc = status.videoId
-    ? `https://www.youtube.com/embed/${status.videoId}`
-    : `https://www.youtube.com/embed/live_stream?channel=UCU8EkEg-JXJaCiX81VddoeA`;
+    ? `https://www.youtube.com/embed/${status.videoId}${status.isUpcoming ? "?autoplay=0" : ""}`
+    : `https://www.youtube.com/embed/live_stream?channel=UCq3hKlDTzAe4V0CqA9maXCQ`;
 
   return (
     <div className="relative w-full bg-black aspect-video">
 
-      {/* Live embed — shown when live */}
-      {status.isLive && (
+      {/* Live or upcoming embed */}
+      {showEmbed && (
         <iframe
           key={embedSrc}
           src={embedSrc}
@@ -50,12 +49,10 @@ export default function LiveStream() {
         />
       )}
 
-      {/* Offline screen — shown when not live */}
-      {checked && !status.isLive && (
+      {/* Offline screen */}
+      {checked && !showEmbed && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#080c14]">
-          {/* Subtle background gradient */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#0d1a2e_0%,#080c14_70%)]" />
-
           <div className="relative z-10 flex flex-col items-center gap-6 px-6 text-center">
             <Image
               src="/logo-transparent.png"

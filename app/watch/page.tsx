@@ -1,12 +1,64 @@
 import Link from "next/link";
 import LiveStream from "@/components/LiveStream";
 
+export const revalidate = 60;
+
 export const metadata = {
   title: "Watch — 180 Church NYC",
   description: "Watch Sunday sermons from 180 Church. Live every Sunday at 12:00 PM and on demand anytime.",
 };
 
-export default function WatchPage() {
+const CHANNEL_ID = "UCq3hKlDTzAe4V0CqA9maXCQ";
+
+type SermonInfo = { title: string; description: string } | null;
+
+async function getCurrentSermonInfo(): Promise<SermonInfo> {
+  const apiKey = process.env.YOUTUBE_API_KEY;
+  if (!apiKey) return null;
+
+  async function fetchFullSnippet(eventType: string): Promise<SermonInfo> {
+    // Step 1: find the video ID
+    const searchUrl = new URL("https://www.googleapis.com/youtube/v3/search");
+    searchUrl.searchParams.set("part", "id");
+    searchUrl.searchParams.set("channelId", CHANNEL_ID);
+    searchUrl.searchParams.set("eventType", eventType);
+    searchUrl.searchParams.set("type", "video");
+    searchUrl.searchParams.set("maxResults", "1");
+    searchUrl.searchParams.set("key", apiKey!);
+
+    const searchRes = await fetch(searchUrl.toString(), {
+      headers: { Referer: "https://180church.tv" },
+      next: { revalidate: 60 },
+    });
+    if (!searchRes.ok) return null;
+    const searchData = await searchRes.json();
+    const videoId = searchData.items?.[0]?.id?.videoId;
+    if (!videoId) return null;
+
+    // Step 2: fetch full description via videos.list
+    const videoUrl = new URL("https://www.googleapis.com/youtube/v3/videos");
+    videoUrl.searchParams.set("part", "snippet");
+    videoUrl.searchParams.set("id", videoId);
+    videoUrl.searchParams.set("key", apiKey!);
+
+    const videoRes = await fetch(videoUrl.toString(), {
+      headers: { Referer: "https://180church.tv" },
+      next: { revalidate: 60 },
+    });
+    if (!videoRes.ok) return null;
+    const videoData = await videoRes.json();
+    const snippet = videoData.items?.[0]?.snippet;
+    if (!snippet) return null;
+
+    return { title: snippet.title, description: snippet.description };
+  }
+
+  return (await fetchFullSnippet("live")) ?? (await fetchFullSnippet("upcoming"));
+}
+
+export default async function WatchPage() {
+  const sermon = await getCurrentSermonInfo();
+
   return (
     <div className="min-h-screen bg-[#080c14] text-white">
 
@@ -15,7 +67,7 @@ export default function WatchPage() {
         <LiveStream />
       </div>
 
-      {/* Program info bar — directly below player */}
+      {/* Program info bar */}
       <div className="border-b border-white/10 px-6 py-5">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
@@ -23,12 +75,14 @@ export default function WatchPage() {
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
               <span className="text-red-400 text-xs font-bold uppercase tracking-widest">Live Sundays 12:00 PM ET</span>
             </div>
-            <h1 className="text-xl font-bold text-white">180 Church NYC — Sunday Service</h1>
+            <h1 className="text-xl font-bold text-white">
+              {sermon?.title ?? "180 Church NYC — Sunday Service"}
+            </h1>
             <p className="text-white/40 text-sm mt-0.5">890 Broadway, Union Square, New York</p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <a
-              href="https://www.youtube.com/@180churchnyc"
+              href="https://www.youtube.com/@180Churchnyc"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-red-700 transition-colors"
@@ -49,14 +103,22 @@ export default function WatchPage() {
           {/* About this stream */}
           <div className="md:col-span-2 space-y-4">
             <h2 className="text-lg font-bold text-white">About</h2>
-            <p className="text-white/60 leading-relaxed">
-              Every Sunday at 12:00 PM, 180 Church gathers in Union Square to worship together,
-              hear a message from the Bible, and build community. Join us in person or watch live
-              from anywhere in the world.
-            </p>
-            <p className="text-white/60 leading-relaxed">
-              Not live right now? You&apos;re watching our most recent service — new ones go up every Sunday.
-            </p>
+            {sermon?.description ? (
+              <p className="text-white/60 leading-relaxed whitespace-pre-line">
+                {sermon.description}
+              </p>
+            ) : (
+              <>
+                <p className="text-white/60 leading-relaxed">
+                  Every Sunday at 12:00 PM, 180 Church gathers in Union Square to worship together,
+                  hear a message from the Bible, and build community. Join us in person or watch live
+                  from anywhere in the world.
+                </p>
+                <p className="text-white/60 leading-relaxed">
+                  Not live right now? You&apos;re watching our most recent service — new ones go up every Sunday.
+                </p>
+              </>
+            )}
           </div>
 
           {/* Schedule + links */}
@@ -78,7 +140,7 @@ export default function WatchPage() {
             <div>
               <p className="text-white/40 text-xs uppercase tracking-widest mb-3">Archive</p>
               <a
-                href="https://www.youtube.com/@180churchnyc/videos"
+                href="https://www.youtube.com/@180Churchnyc/videos"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#29B9E8] text-sm font-medium hover:underline"

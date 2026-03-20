@@ -46,8 +46,8 @@ export default function AboutPage() {
         <p className="text-[#29B9E8] font-semibold text-sm uppercase tracking-widest mb-4">About Us</p>
         <h1 className="text-5xl md:text-6xl font-bold text-[#1a1a2e] mb-6">Who we are.</h1>
         <p className="text-[#4a4a6a] text-xl max-w-xl mx-auto leading-relaxed">
-          We exist to help people turn to Christ and live for Christ,
-          right here in the heart of New York City.
+          Whether you are near or far from faith, lost or found, or anywhere in between
+          — we invite you to discover and encounter Christ with us.
         </p>
       </section>
 
@@ -72,17 +72,17 @@ export default function AboutPage() {
           <div className="space-y-5 text-[#4a4a6a] text-lg leading-relaxed">
             <p>
               Since 2008, 180 Church has been an evangelical, interdenominational community
-              gathered in Union Square — one of New York City&apos;s most diverse and vibrant neighborhoods.
+              gathered in Union Square, one of New York City&apos;s most diverse and vibrant neighborhoods.
             </p>
             <p>
-              Our vision is simple: joining God to restore the beauty in all things. We believe
-              the gospel doesn&apos;t just change individuals. It changes neighborhoods, cities, and cultures.
+              Here at 180 Church, we welcome you to come just as you are. We believe you will
+              experience a real change where Christ doesn&apos;t change only some things about you.
+              He changes everything.
+            </p>
+            <p>
+              Our vision is joining God to restore the beauty in all things. The gospel doesn&apos;t
+              just change individuals. It changes neighborhoods, cities, and cultures.
               That&apos;s why we&apos;re here, and that&apos;s what we&apos;re building.
-            </p>
-            <p>
-              We&apos;re committed to raising up people who are willing to give up everything to follow Jesus
-              and represent their communities for Christ. If that sounds like something you want to be
-              part of, you&apos;re home.
             </p>
           </div>
         </div>
