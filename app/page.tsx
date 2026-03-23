@@ -1,320 +1,293 @@
 import Link from "next/link";
 import Image from "next/image";
 import LatestSermon from "@/components/LatestSermon";
-import Logo from "@/components/Logo";
-
 
 export default function Home() {
   return (
     <>
-      {/* ─── HERO ─────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Swap div below with a real hero photo when ready:
-            <Image src="/photos/hero.jpg" alt="180 Church community" fill className="object-cover" priority />
-        */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a2e] via-[#0d2a3d] to-[#1a3a5c]" />
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_top_right,#29B9E8,transparent)]" />
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_bottom_left,#c8a97a,transparent)]" />
-
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <div className="flex justify-center mb-8">
-            <Logo size={72} bg="dark" />
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-            You&apos;re <span className="text-[#29B9E8]">Home.</span>
+      {/* ─── HERO: Split layout ──────────────────────────────────────── */}
+      <section className="relative min-h-screen bg-[#1a1a2e] flex flex-col md:flex-row items-center pt-20 md:pt-0 overflow-hidden">
+        {/* Left — text */}
+        <div className="w-full md:w-1/2 px-8 md:pl-16 lg:pl-24 z-10 flex flex-col justify-center py-20 md:py-0 md:h-screen">
+          <h1 className="font-serif italic text-6xl md:text-8xl text-white leading-tight mb-8 tracking-tighter">
+            You&apos;re Home.
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-white/60 max-w-md mb-10 leading-relaxed">
             A gospel-centered family in the heart of New York City.
             Come as you are. There&apos;s always room for one more.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div>
             <Link
               href="/im-new"
-              className="bg-[#29B9E8] text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-[#1a9fd4] transition-all hover:scale-105 shadow-lg"
+              className="inline-block bg-[#29B9E8]/20 border border-[#29B9E8]/50 text-[#29B9E8] px-8 py-4 font-semibold hover:bg-[#29B9E8] hover:text-white transition-all duration-200"
             >
-              Plan Your Visit
+              Join us Sunday
             </Link>
-            <a
-              href="https://www.youtube.com/@180churchnyc"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border-2 border-white/40 text-white px-8 py-4 rounded-full text-base font-semibold hover:border-white hover:bg-white/10 transition-all"
-            >
-              Watch Online
-            </a>
           </div>
-          <div className="mt-14 flex flex-col items-center gap-2 text-gray-400 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#29B9E8] animate-pulse motion-reduce:animate-none" />
-              <span>Sundays at 12:00 PM · 890 Broadway, Union Square</span>
+          <div className="mt-14 text-white/30 text-sm space-y-1">
+            <p>Sundays at 12:00 PM · 890 Broadway, Union Square</p>
+            <p className="text-white/20 text-xs">We meet inside AMC 25 Union Square — yes, a movie theater.</p>
+          </div>
+        </div>
+
+        {/* Right — photo */}
+        <div className="w-full md:w-1/2 h-72 md:h-screen relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a2e] via-[#1a1a2e]/30 to-transparent z-10 hidden md:block" style={{ width: "6rem" }} />
+          <Image
+            src="/photos/community-1.jpg"
+            alt="180 Church community"
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+      </section>
+
+      {/* ─── WELCOME: Editorial grid ─────────────────────────────────── */}
+      <section className="py-24 px-8 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-baseline">
+        <div className="md:col-span-5">
+          <h2 className="font-serif text-4xl md:text-5xl text-[#1a1a2e] leading-tight">
+            Finding your people<br />in a city of <em>millions</em>.
+          </h2>
+        </div>
+        <div className="md:col-span-6 md:col-start-7 space-y-6">
+          <p className="text-[#4a4a6a] text-lg leading-relaxed">
+            New York can feel vast and anonymous. 180 Church exists to be something different — not an institution, but a family. A place where you are known, seen, and genuinely home.
+          </p>
+          <p className="text-[#4a4a6a] text-lg leading-relaxed">
+            Every Sunday we gather in Union Square — inside a movie theater, because we&apos;re a little unconventional — to worship together, grow together, and make space for whoever walks through the door.
+          </p>
+          <Link href="/about" className="inline-flex items-center text-[#29B9E8] font-semibold group">
+            Our story
+            <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
+        </div>
+      </section>
+
+      {/* ─── SERVICE INFO: Typographic columns ───────────────────────── */}
+      <section className="bg-[#f8f6f2] py-20 px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+            <div className="py-12 md:pr-16">
+              <span className="uppercase tracking-widest text-xs font-bold text-[#29B9E8] mb-4 block">In Person</span>
+              <h3 className="font-serif text-3xl mb-6 text-[#1a1a2e]">Union Square</h3>
+              <div className="space-y-2 text-[#4a4a6a]">
+                <p className="font-medium text-lg">Every Sunday at 12:00 PM</p>
+                <p>890 Broadway, New York, NY 10003</p>
+                <p className="pt-4 text-sm opacity-70 leading-relaxed">
+                  Inside AMC 25 Union Square. Arrive a few minutes early — someone will be there to welcome you at the door.
+                </p>
+                <a
+                  href="https://maps.google.com/?q=890+Broadway+New+York+NY+10003"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block pt-3 text-[#29B9E8] text-sm font-semibold hover:underline"
+                >
+                  Get Directions →
+                </a>
+              </div>
             </div>
-            <span className="text-white/30 text-xs">We meet inside AMC 25 Union Square — yes, a movie theater.</span>
+            <div className="py-12 md:pl-16">
+              <span className="uppercase tracking-widest text-xs font-bold text-[#29B9E8] mb-4 block">Online</span>
+              <h3 className="font-serif text-3xl mb-6 text-[#1a1a2e]">Watch Live</h3>
+              <div className="space-y-2 text-[#4a4a6a]">
+                <p className="font-medium text-lg">Sundays at 12:00 PM ET</p>
+                <p>Streaming live on YouTube</p>
+                <p className="pt-4 text-sm opacity-70 leading-relaxed">
+                  Can&apos;t make it in person? Join us online. Past sermons are available anytime.
+                </p>
+                <Link href="/watch" className="inline-block pt-3 text-[#29B9E8] text-sm font-semibold hover:underline">
+                  Watch Online →
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/30 animate-bounce motion-reduce:animate-none">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
         </div>
       </section>
 
-      {/* ─── WELCOME STRIP ────────────────────────────────────── */}
-      <section className="bg-[#29B9E8] py-10 px-6 text-center">
-        <p className="text-white text-lg md:text-xl font-medium max-w-3xl mx-auto leading-relaxed">
-          Come in. We&apos;ve been saving you a seat.
-        </p>
-      </section>
-
-
-      {/* ─── WHO WE ARE ───────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[#f8f6f2]">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <div>
-            <p className="text-[#29B9E8] font-semibold text-sm uppercase tracking-widest mb-3">Who We Are</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a2e] mb-6 leading-tight">
-              A family rooted<br />in New York City.
-            </h2>
-            <p className="text-[#4a4a6a] text-lg leading-relaxed mb-6">
-              180 Church is a family that believes faith is best lived with real people —
-              honest conversations, open doors, and room for everyone.
-            </p>
-            <p className="text-[#4a4a6a] text-lg leading-relaxed mb-8">
-              Every Sunday we gather in Union Square. We worship together, grow together,
-              and make space for whoever walks through the door.
-            </p>
-            <Link href="/about" className="inline-flex items-center gap-2 text-[#29B9E8] font-semibold hover:gap-3 transition-all">
-              Learn more about us
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </div>
-
+      {/* ─── MESSAGE FROM OUR LEADER ─────────────────────────────────── */}
+      <section className="py-24 px-8 bg-white">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          {/* Photo or video */}
           <div className="relative">
-            <div className="rounded-2xl overflow-hidden shadow-2xl aspect-[4/3] relative">
-              <Image src="/photos/community-2.jpg" alt="180 Church community" fill className="object-cover" />
-            </div>
-            <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-[#29B9E8]/10 rounded-2xl -z-10" />
-          </div>
-        </div>
-      </section>
-
-      {/* ─── PASTOR WELCOME ───────────────────────────────────── */}
-      {/* Swap PASTOR_VIDEO_ID in .env.local once video is recorded */}
-      <section className="py-24 px-6 bg-[#1a1a2e]">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          {/* Video */}
-          <div className="rounded-2xl overflow-hidden shadow-2xl aspect-video relative bg-white/5 border border-white/10 flex items-center justify-center">
             {process.env.PASTOR_VIDEO_ID ? (
-              <iframe
-                src={`https://www.youtube.com/embed/${process.env.PASTOR_VIDEO_ID}`}
-                title="A word from our pastor"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
+              <div className="aspect-video w-full overflow-hidden">
+                <iframe
+                  src={`https://www.youtube.com/embed/${process.env.PASTOR_VIDEO_ID}`}
+                  title="A word from Pastor Sam"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                />
+              </div>
             ) : (
-              <div className="text-center px-8">
-                <div className="w-16 h-16 rounded-full bg-[#29B9E8]/20 flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-7 h-7 text-[#29B9E8]" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
-                <p className="text-white/40 text-sm">Pastor welcome video coming soon</p>
+              <div className="aspect-[4/5] overflow-hidden relative">
+                <Image
+                  src="/photos/staff/sam-kim.webp"
+                  alt="Pastor Sam D. Kim"
+                  fill
+                  className="object-cover object-top"
+                />
               </div>
             )}
           </div>
 
-          {/* Text */}
+          {/* Message */}
           <div>
-            <p className="text-[#29B9E8] font-semibold text-sm uppercase tracking-widest mb-3">A Word From Our Pastor</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              We&apos;d love to meet you.
+            <span className="uppercase tracking-widest text-xs font-bold text-[#29B9E8] mb-4 block">A Word From Our Pastor</span>
+            <h2 className="font-serif text-4xl md:text-5xl text-[#1a1a2e] leading-tight mb-8">
+              <em>We&apos;d love<br />to meet you.</em>
             </h2>
-            <p className="text-gray-400 text-lg leading-relaxed mb-8">
-              Pastor Sam and Lydia Kim founded 180 Church in 2008 with one conviction:
-              that New York City needed a place where people could truly come home.
-              That door is still open.
-            </p>
-            <Link
-              href="/im-new"
-              className="inline-block bg-[#29B9E8] text-white px-8 py-4 rounded-full font-semibold hover:bg-[#1a9fd4] transition-all"
-            >
-              Plan Your First Visit
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── TESTIMONIAL ──────────────────────────────────────── */}
-      <section className="py-20 px-6 bg-white">
-        <div className="max-w-3xl mx-auto text-center">
-          <svg className="w-10 h-10 text-[#29B9E8]/30 mx-auto mb-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-          </svg>
-          <blockquote className="text-2xl md:text-3xl font-semibold text-[#1a1a2e] leading-relaxed mb-8">
-            I came to 180 Church looking for a community where I could grow my faith. What I didn&apos;t expect was finding a family that made me feel like I was coming home. I found people to do life with.
-          </blockquote>
-          <div className="flex items-center justify-center gap-3">
-            <div className="w-px h-6 bg-gray-300" />
-            <p className="text-[#4a4a6a] text-sm font-medium">Jon &nbsp;·&nbsp; Member of 180 Church since 2022</p>
-            <div className="w-px h-6 bg-gray-300" />
-          </div>
-        </div>
-      </section>
-
-      <div className="max-w-3xl mx-auto px-6">
-        <div className="border-t border-gray-200" />
-      </div>
-
-      {/* ─── COMMUNITY PHOTOS GRID ────────────────────────────── */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-[#29B9E8] font-semibold text-sm uppercase tracking-widest mb-3">Our Community</p>
-            <h2 className="text-4xl font-bold text-[#1a1a2e]">This is what home looks like.</h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="rounded-2xl overflow-hidden col-span-2 md:col-span-1 row-span-2 relative h-72 md:h-full min-h-[280px]">
-              <Image src="/photos/community-1.jpg" alt="180 Church community gathering" fill className="object-cover" priority sizes="(max-width: 768px) 100vw, 33vw" />
+            <blockquote className="font-serif italic text-xl text-[#4a4a6a] leading-relaxed mb-8 border-l-2 border-[#29B9E8] pl-6">
+              &ldquo;180 Church exists to help people turn to Christ and live for Christ. If you&apos;ve never been to church, or if you&apos;ve been away for a long time — this is a place where you will be welcomed, no questions asked. The door is always open.&rdquo;
+            </blockquote>
+            <div>
+              <p className="font-semibold text-[#1a1a2e]">Rev. Dr. Sam D. Kim</p>
+              <p className="text-[#4a4a6a] text-sm">Pastor of Preaching & Vision · Co-Founder</p>
             </div>
-            <div className="rounded-2xl overflow-hidden relative h-44">
-              <Image src="/photos/community-3.jpg" alt="180 Church kids in Central Park" fill className="object-cover scale-150 -translate-y-10 -translate-x-8" />
-            </div>
-            <div className="rounded-2xl overflow-hidden relative h-44">
-              <Image src="/photos/community-4.jpg" alt="180 Church kids at AMC Union Square" fill className="object-cover" />
-            </div>
-            <div className="rounded-2xl overflow-hidden relative h-44">
-              <Image src="/photos/community-6.jpg" alt="180 Church men's retreat" fill className="object-cover scale-125 translate-y-4" />
-            </div>
-            <div className="rounded-2xl overflow-hidden relative h-44">
-              <Image src="/photos/community-7.jpg" alt="180 Church women's fellowship" fill className="object-cover" />
-            </div>
-            <div className="rounded-2xl overflow-hidden relative h-44">
-              <Image src="/photos/community-5.png" alt="180 Church prayer" fill className="object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SERVICE TIMES ────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[#1a1a2e] text-white">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <p className="text-[#29B9E8] font-semibold text-sm uppercase tracking-widest mb-3">Join Us</p>
-            <h2 className="text-4xl font-bold mb-6">Pull up a chair.</h2>
-            <p className="text-gray-400 text-lg leading-relaxed mb-8">
-              No dress code. No prior experience. Just show up.
-            </p>
-            <Link href="/im-new" className="inline-block bg-[#29B9E8] text-white px-8 py-4 rounded-full font-semibold hover:bg-[#1a9fd4] transition-all">
-              Plan Your First Visit
-            </Link>
-          </div>
-
-          <div className="space-y-5">
-            {[
-              {
-                icon: (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                ),
-                title: "Sunday Service",
-                body: "12:00 PM — In Person & Online",
-                link: null,
-              },
-              {
-                icon: (
-                  <>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </>
-                ),
-                title: "Location",
-                body: "890 Broadway, Union Square\nNew York, NY 10003",
-                link: { label: "Get Directions →", href: "https://maps.google.com/?q=890+Broadway+New+York+NY+10003" },
-              },
-              {
-                icon: (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.362a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                ),
-                title: "Watch Online",
-                body: "Join us live or catch up anytime",
-                link: { label: "Watch on YouTube →", href: "https://www.youtube.com/@180churchnyc" },
-              },
-            ].map((item, i) => (
-              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-6 flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#29B9E8]/20 flex items-center justify-center shrink-0">
-                  <svg className="w-6 h-6 text-[#29B9E8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    {item.icon}
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-semibold text-white text-lg">{item.title}</p>
-                  <p className="text-gray-400 mt-1 whitespace-pre-line">{item.body}</p>
-                  {item.link && (
-                    <a href={item.link.href} target="_blank" rel="noopener noreferrer" className="text-[#29B9E8] text-sm mt-2 inline-block hover:underline">
-                      {item.link.label}
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── LATEST SERMON ────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[#f8f6f2]">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-[#29B9E8] font-semibold text-sm uppercase tracking-widest mb-3">Latest Message</p>
-          <h2 className="text-4xl font-bold text-[#1a1a2e] mb-4">Miss a Sunday? We&apos;ve got you.</h2>
-          <p className="text-[#4a4a6a] text-lg mb-10">Catch up on our latest sermon or browse the full archive.</p>
-          <LatestSermon />
-          <a href="https://www.youtube.com/180churchnyc" target="_blank" rel="noopener noreferrer" className="inline-block mt-8 text-[#29B9E8] font-semibold hover:underline">
-            View all sermons on YouTube →
-          </a>
-        </div>
-      </section>
-
-      {/* ─── I'M NEW CTA ──────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-5xl mx-auto">
-          <div className="bg-gradient-to-br from-[#29B9E8] to-[#1a9fd4] rounded-3xl p-12 md:p-16 text-center text-white relative overflow-hidden">
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_bottom_left,white,transparent)]" />
-            <div className="relative z-10">
-              <p className="font-semibold text-white/70 text-sm uppercase tracking-widest mb-4">First Time?</p>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                We&apos;ve been waiting for you.
-              </h2>
-              <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-                Not sure what to expect? We put together everything you need to know
-                before your first Sunday with us.
-              </p>
-              <Link href="/im-new" className="inline-block bg-white text-[#29B9E8] px-10 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all shadow-lg">
-                I&apos;m New — What Should I Know?
+            <div className="mt-8">
+              <Link
+                href="/im-new"
+                className="inline-block bg-[#1a1a2e] text-white px-8 py-4 font-medium hover:bg-[#29B9E8] transition-all duration-200"
+              >
+                Plan Your First Visit
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── NEWSLETTER ───────────────────────────────────────── */}
-      <section className="py-16 px-6 bg-[#f8f6f2] border-t border-gray-200">
-        <div className="max-w-xl mx-auto text-center">
-          <h3 className="text-2xl font-bold text-[#1a1a2e] mb-2">Stay connected.</h3>
-          <p className="text-[#4a4a6a] mb-8">Get updates, sermon notes, and community news straight to your inbox.</p>
-          <form className="flex flex-col sm:flex-row gap-3">
-            <label htmlFor="newsletter-email" className="sr-only">Email address</label>
-            <input
-              id="newsletter-email"
-              type="email"
-              placeholder="Your email address"
-              className="flex-1 px-5 py-3 rounded-full border border-gray-200 text-[#1a1a2e] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#29B9E8] text-sm"
-            />
-            <button type="submit" className="bg-[#29B9E8] text-white px-7 py-3 rounded-full font-semibold text-sm hover:bg-[#1a9fd4] transition-colors whitespace-nowrap">
-              Stay Connected
-            </button>
-          </form>
+      {/* ─── TESTIMONIAL: Photo background ───────────────────────────── */}
+      <section className="py-32 px-8 overflow-hidden relative">
+        <Image
+          src="/photos/community-2.jpg"
+          alt=""
+          fill
+          className="object-cover object-top"
+        />
+        <div className="absolute inset-0 bg-[#1a1a2e]/70" />
+        <div className="max-w-4xl mx-auto relative z-10 text-center">
+          <blockquote className="font-serif italic text-3xl md:text-5xl text-white leading-snug">
+            &ldquo;I came to 180 Church looking for a community where I could grow my faith. What I didn&apos;t expect was finding a family that made me feel like I was coming home.&rdquo;
+          </blockquote>
+          <cite className="not-italic block mt-12">
+            <span className="text-[#29B9E8] font-bold tracking-widest uppercase text-sm block mb-2">Jon</span>
+            <span className="font-serif italic text-white/40 text-lg">Member since 2022</span>
+          </cite>
+        </div>
+      </section>
+
+      {/* ─── COMMUNITY GRID: Staggered, grayscale hover ──────────────── */}
+      <section className="py-24 px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+          <div className="max-w-xl">
+            <h2 className="font-serif text-4xl md:text-5xl text-[#1a1a2e] leading-tight mb-4">
+              Life together outside of <em>Sundays</em>.
+            </h2>
+            <p className="text-[#4a4a6a] text-lg">
+              Small groups, dinners, and community spread across the five boroughs.
+            </p>
+          </div>
+          <Link href="/about#community" className="text-[#29B9E8] font-bold uppercase tracking-widest text-sm hover:underline shrink-0">
+            Learn More
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="space-y-5">
+            <div className="aspect-[4/5] overflow-hidden relative bg-gray-100">
+              <Image
+                src="/photos/community-3.jpg"
+                alt="180 Church small groups"
+                fill
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-700 object-center"
+              />
+            </div>
+            <div>
+              <h4 className="font-serif text-2xl mb-2 text-[#1a1a2e]">Small Groups</h4>
+              <p className="text-[#4a4a6a] text-sm leading-relaxed">
+                Some meet in person around the city, some meet on Zoom. All share life, scripture, and a meal together throughout the week.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-5 md:mt-12">
+            <div className="aspect-[4/5] overflow-hidden relative bg-gray-100">
+              <Image
+                src="/photos/community-15.png"
+                alt="180 Church retreats"
+                fill
+                className="object-cover object-[center_60%] grayscale hover:grayscale-0 transition-all duration-700"
+              />
+            </div>
+            <div>
+              <h4 className="font-serif text-2xl mb-2 text-[#1a1a2e]">Retreats & Events</h4>
+              <p className="text-[#4a4a6a] text-sm leading-relaxed">
+                From men&apos;s retreats to women&apos;s fellowships — moments away from the city to go deeper together.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-5">
+            <div className="aspect-[4/5] overflow-hidden relative bg-gray-100">
+              <Image
+                src="/photos/community-16.png"
+                alt="180 Church worship"
+                fill
+                className="object-cover object-[center_30%] grayscale hover:grayscale-0 transition-all duration-700"
+              />
+            </div>
+            <div>
+              <h4 className="font-serif text-2xl mb-2 text-[#1a1a2e]">Worship & Prayer</h4>
+              <p className="text-[#4a4a6a] text-sm leading-relaxed">
+                Sunday mornings are just the beginning. We pursue God together all week long.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── LATEST SERMON ───────────────────────────────────────────── */}
+      <section className="bg-[#f8f6f2] py-24 px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-10">
+            <span className="uppercase tracking-widest text-xs font-bold text-[#29B9E8] mb-3 block">Latest Message</span>
+            <h2 className="font-serif text-4xl text-[#1a1a2e]">
+              Miss a Sunday?<br /><em>We&apos;ve got you.</em>
+            </h2>
+          </div>
+          <LatestSermon />
+          <a
+            href="https://www.youtube.com/180churchnyc"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-8 text-[#29B9E8] font-semibold hover:underline text-sm"
+          >
+            Browse all sermons on YouTube →
+          </a>
+        </div>
+      </section>
+
+      {/* ─── CTA ─────────────────────────────────────────────────────── */}
+      <section className="bg-[#f8f6f2] border-t border-gray-200 py-24 text-center px-8">
+        <h3 className="font-serif text-4xl md:text-6xl text-[#1a1a2e] mb-10 leading-tight">
+          The table is<br /><em>set for you.</em>
+        </h3>
+        <div className="flex flex-col md:flex-row gap-4 justify-center">
+          <Link
+            href="/im-new"
+            className="bg-[#1a1a2e] text-white px-10 py-4 font-medium hover:bg-[#29B9E8] transition-all duration-200"
+          >
+            Plan Your Visit
+          </Link>
+          <a
+            href="mailto:info@180church.tv"
+            className="border border-[#1a1a2e] text-[#1a1a2e] px-10 py-4 font-medium hover:bg-[#1a1a2e] hover:text-white transition-all duration-200"
+          >
+            Ask a Question
+          </a>
         </div>
       </section>
     </>

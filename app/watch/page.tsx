@@ -1,5 +1,7 @@
 import Link from "next/link";
 import LiveStream from "@/components/LiveStream";
+import LatestSermon from "@/components/LatestSermon";
+import SermonLibrary from "@/components/SermonLibrary";
 
 export const revalidate = 60;
 
@@ -17,7 +19,6 @@ async function getCurrentSermonInfo(): Promise<SermonInfo> {
   if (!apiKey) return null;
 
   async function fetchFullSnippet(eventType: string): Promise<SermonInfo> {
-    // Step 1: find the video ID
     const searchUrl = new URL("https://www.googleapis.com/youtube/v3/search");
     searchUrl.searchParams.set("part", "id");
     searchUrl.searchParams.set("channelId", CHANNEL_ID);
@@ -35,7 +36,6 @@ async function getCurrentSermonInfo(): Promise<SermonInfo> {
     const videoId = searchData.items?.[0]?.id?.videoId;
     if (!videoId) return null;
 
-    // Step 2: fetch full description via videos.list
     const videoUrl = new URL("https://www.googleapis.com/youtube/v3/videos");
     videoUrl.searchParams.set("part", "snippet");
     videoUrl.searchParams.set("id", videoId);
@@ -60,101 +60,141 @@ export default async function WatchPage() {
   const sermon = await getCurrentSermonInfo();
 
   return (
-    <div className="min-h-screen bg-[#080c14] text-white">
+    <div className="min-h-screen bg-[#1a1a2e] text-white">
 
-      {/* Full-viewport video player */}
+      {/* ─── HERO: Live stream ───────────────────────────────────────── */}
       <div className="w-full pt-16">
         <LiveStream />
       </div>
 
-      {/* Program info bar */}
-      <div className="border-b border-white/10 px-6 py-5">
+      {/* ─── PROGRAM INFO BAR ────────────────────────────────────────── */}
+      <div className="border-b border-white/10 px-6 py-5 bg-[#1a1a2e]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse motion-reduce:animate-none" />
               <span className="text-red-400 text-xs font-bold uppercase tracking-widest">Live Sundays 12:00 PM ET</span>
             </div>
-            <h1 className="text-xl font-bold text-white">
+            <h1 className="text-xl font-semibold text-white">
               {sermon?.title ?? "180 Church NYC — Sunday Service"}
             </h1>
-            <p className="text-white/40 text-sm mt-0.5">890 Broadway, Union Square, New York</p>
+            <p className="text-white/40 text-sm mt-0.5">890 Broadway, Union Square · AMC 25</p>
           </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <a
-              href="https://www.youtube.com/@180Churchnyc"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-red-700 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-              </svg>
-              Subscribe
-            </a>
+          <a
+            href="https://www.youtube.com/@180Churchnyc"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-red-600 text-white px-5 py-2.5 text-sm font-semibold hover:bg-red-700 transition-colors shrink-0"
+          >
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+            Subscribe on YouTube
+          </a>
+        </div>
+      </div>
+
+      {/* ─── ABOUT / SCHEDULE ────────────────────────────────────────── */}
+      <div className="px-6 py-14 border-b border-white/5">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
+          <div className="md:col-span-2 space-y-4">
+            <span className="text-[#29B9E8] text-xs font-bold tracking-widest uppercase block">About</span>
+            {sermon?.description ? (
+              <p className="text-white/60 leading-relaxed whitespace-pre-line">{sermon.description}</p>
+            ) : (
+              <p className="text-white/60 leading-relaxed text-lg">
+                Every Sunday at 12:00 PM, 180 Church gathers inside AMC 25 Union Square to worship,
+                hear a message from the Bible, and build community. Join us in person or stream live
+                from anywhere in the world.
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-8">
+            <div>
+              <p className="text-white/30 text-xs uppercase tracking-widest mb-4">Schedule</p>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between border-b border-white/5 pb-3">
+                  <span className="text-white/50">Sunday Service</span>
+                  <span className="text-white font-medium">12:00 PM ET</span>
+                </div>
+                <div className="flex justify-between border-b border-white/5 pb-3">
+                  <span className="text-white/50">Venue</span>
+                  <span className="text-white font-medium">890 Broadway</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/50">Format</span>
+                  <span className="text-white font-medium">In Person & Online</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p className="text-white/30 text-xs uppercase tracking-widest mb-4">Quick Links</p>
+              <div className="space-y-2 text-sm">
+                <a
+                  href="https://www.youtube.com/@180Churchnyc/videos"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-[#29B9E8] hover:underline"
+                >
+                  Sermon archive on YouTube →
+                </a>
+                <Link href="/im-new" className="block text-[#29B9E8] hover:underline">
+                  Plan your first visit →
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Details row */}
-      <div className="px-6 py-10">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+      {/* ─── LATEST MESSAGE ──────────────────────────────────────────── */}
+      <div className="px-6 py-20 border-b border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <span className="text-[#29B9E8] text-xs font-bold tracking-widest uppercase mb-2 block">Latest</span>
+              <h2 className="font-serif text-3xl text-white">Most Recent Message</h2>
+            </div>
+            <a
+              href="https://www.youtube.com/@180Churchnyc/videos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-white/40 hover:text-[#29B9E8] transition-colors flex items-center gap-1"
+            >
+              All sermons
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+          <div className="max-w-4xl">
+            <LatestSermon />
+          </div>
+        </div>
+      </div>
 
-          {/* About this stream */}
-          <div className="md:col-span-2 space-y-4">
-            <h2 className="text-lg font-bold text-white">About</h2>
-            {sermon?.description ? (
-              <p className="text-white/60 leading-relaxed whitespace-pre-line">
-                {sermon.description}
-              </p>
-            ) : (
-              <>
-                <p className="text-white/60 leading-relaxed">
-                  Every Sunday at 12:00 PM, 180 Church gathers in Union Square to worship together,
-                  hear a message from the Bible, and build community. Join us in person or watch live
-                  from anywhere in the world.
-                </p>
-                <p className="text-white/60 leading-relaxed">
-                  Not live right now? You&apos;re watching our most recent service — new ones go up every Sunday.
-                </p>
-              </>
-            )}
+      {/* ─── BROWSE ARCHIVE ──────────────────────────────────────────── */}
+      <div className="px-6 py-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <span className="text-[#29B9E8] text-xs font-bold tracking-widest uppercase mb-2 block">Archive</span>
+              <h2 className="font-serif text-3xl text-white">Browse All Sermons</h2>
+            </div>
           </div>
 
-          {/* Schedule + links */}
-          <div className="space-y-6">
-            <div>
-              <p className="text-white/40 text-xs uppercase tracking-widest mb-3">Schedule</p>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-white/60">Sunday Service</span>
-                  <span className="text-white font-medium">12:00 PM ET</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-white/60">In Person</span>
-                  <span className="text-white font-medium">890 Broadway</span>
-                </div>
-              </div>
-            </div>
+          <SermonLibrary />
 
-            <div>
-              <p className="text-white/40 text-xs uppercase tracking-widest mb-3">Archive</p>
-              <a
-                href="https://www.youtube.com/@180Churchnyc/videos"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#29B9E8] text-sm font-medium hover:underline"
-              >
-                Browse all sermons on YouTube →
-              </a>
-            </div>
-
-            <div>
-              <p className="text-white/40 text-xs uppercase tracking-widest mb-3">First Time?</p>
-              <Link href="/im-new" className="text-[#29B9E8] text-sm font-medium hover:underline">
-                Plan your visit →
-              </Link>
-            </div>
+          <div className="mt-12">
+            <a
+              href="https://www.youtube.com/@180Churchnyc/videos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-[#29B9E8] text-sm font-semibold hover:underline"
+            >
+              View all sermons on YouTube →
+            </a>
           </div>
         </div>
       </div>

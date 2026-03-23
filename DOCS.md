@@ -44,14 +44,17 @@ npm run build
 
 ## Pages
 
-| Page | Route | Purpose |
-|------|-------|---------|
-| Homepage | `/` | Hero, arrival strip, who we are, testimonial, photos, service times, latest sermon, I'm New CTA |
-| I'm New | `/im-new` | Timeline first visit guide, FAQ accordion, contact form, directions |
-| Watch | `/watch` | UN Web TV-style live stream embed, offline screen, schedule info |
-| About | `/about` | Mission pull quote, story, values with icons, small groups, staff teaser |
-| Give | `/give` | Giving methods with icons, stacked single-column layout |
-| Staff | `/staff` | Lead pastors featured, rest of team in grid |
+All pages have been fully rebuilt with an editorial design system (Newsreader serif + Inter sans-serif, dark navy + sky blue + warm off-white palette, square buttons).
+
+| Page | Route | Status | Notes |
+|------|-------|--------|-------|
+| Homepage | `/` | ✅ Done | Split hero, welcome grid, service info, testimonial bg, community grid, pastor quote, latest sermon, CTA |
+| I'm New | `/im-new` | ✅ Done | Hero + floating time card, Sunday experience 4-item grid, narrative section, location bento, FAQ, final CTA |
+| Watch | `/watch` | ✅ Done | Live stream hero (LiveStream component), program bar, about/schedule grid, latest sermon, YouTube playlist archive |
+| About | `/about` | ✅ Done | Hero photo + "Our Story", mission pull quote, story body 2-col, values asymmetric staggered, AMC dark card, small groups split, team CTA |
+| Give | `/give` | ✅ Done | Hero + community photo, impact bento grid, GivingPortal component, ways to give rows, FAQ |
+| Staff | `/staff` | ✅ Done | Sam Kim 7-col featured, Lydia + Sarah 2-col staggered, Stewart/Paul/Grace 3-col grid, dark navy CTA card |
+| News | `/community` | ✅ Done | "Life Together" hero, announcements 3-col staggered, news & stories bento, "The Table is Set" CTA |
 
 ---
 
@@ -60,28 +63,33 @@ npm run build
 ```
 180church/
 ├── app/
-│   ├── layout.tsx              # Root layout — loads Navbar + Footer
-│   ├── globals.css             # Tailwind v4 config, brand colors
+│   ├── layout.tsx              # Root layout — loads Navbar + Footer, Newsreader + Inter fonts
+│   ├── globals.css             # Tailwind v4 config, brand colors, --font-serif variable
 │   ├── page.tsx                # Homepage
 │   ├── im-new/page.tsx         # I'm New page
-│   ├── watch/page.tsx          # Watch page (UN Web TV style)
+│   ├── watch/page.tsx          # Watch page
 │   ├── about/page.tsx          # About page
-│   ├── give/page.tsx           # Give page
+│   ├── give/
+│   │   ├── page.tsx            # Give page
+│   │   └── GivingPortal.tsx    # Client component — amount selection UI, routes to PayPal
 │   ├── staff/page.tsx          # Meet the Staff page
+│   ├── community/page.tsx      # News page (route stays /community)
 │   └── api/
 │       └── is-live/route.ts    # Checks if 180churchnyc is currently live on YouTube
 ├── components/
-│   ├── Navbar.tsx              # Fixed top nav, mobile hamburger
+│   ├── Navbar.tsx              # Fixed top nav, mobile hamburger — links: Home, I'm New, Watch, About, News, Staff, Give
 │   ├── Footer.tsx              # Dark footer, 3-column layout
 │   ├── Logo.tsx                # Logo component (light/dark variants)
 │   ├── LatestSermon.tsx        # Embeds latest sermon via user_uploads playlist
 │   ├── LiveStream.tsx          # Client component — polls /api/is-live, shows offline screen or live embed
 │   └── FAQ.tsx                 # Client component — accordion FAQ for I'm New page
+├── data/
+│   └── announcements.ts        # Static announcement data (add new items here — no CMS needed)
 ├── public/
 │   ├── logo-transparent.png    # PRIMARY logo — transparent background
 │   ├── logo-reference.png      # White background version
-│   ├── photos/                 # DROP COMMUNITY PHOTOS HERE
-│   └── photos/staff/           # DROP STAFF PHOTOS HERE (see Staff section below)
+│   ├── photos/                 # Community photos (community-1.jpg through community-7.jpg)
+│   └── photos/staff/           # Staff photos (sam-kim.webp, lydia-kim.png, sarah-bennett.jpg, stu-still.jpg, paul-lee.jpg, grace-lee.jpg)
 └── DOCS.md                     # This file
 ```
 
@@ -113,9 +121,16 @@ npm run build
 ```
 
 ### Typography
-- **Font:** Inter (Google Fonts, loaded via `next/font/google`)
-- **Headings:** Bold, tight tracking
-- **Body:** Regular, relaxed line height
+- **Serif font:** Newsreader (Google Fonts, loaded via `next/font/google`, variable `--font-newsreader`)
+- **Sans-serif font:** Inter (Google Fonts, loaded via `next/font/google`, variable `--font-inter`)
+- **In Tailwind:** `font-serif` → Newsreader, `font-sans` → Inter
+- **Headings:** Newsreader italic for hero headlines, Newsreader regular for section headings
+- **Body:** Inter regular, relaxed line height
+
+### Button Style
+- Square corners (no `rounded-full`) — intentional design choice
+- Primary: `bg-[#1a1a2e] text-white hover:bg-[#29B9E8]`
+- Brand: `bg-[#29B9E8] text-white hover:bg-[#1a9fd4]`
 
 ---
 
@@ -166,25 +181,54 @@ npm run build
 
 ## Photos
 
-### Community Photos
-Placeholders are in place. To replace:
-1. Download from [facebook.com/180church/photos](https://www.facebook.com/180church/photos) (past 3 years)
-2. Save to `/public/photos/` — name them `community-1.jpg`, `community-2.jpg`, etc.
-3. In `app/page.tsx`, search for `PhotoPlaceholder` — each has a comment showing how to swap in a real image
+### Community Photos — Current Assignment
+
+With 7 community photos across 7 pages, some sharing is unavoidable. Current distribution minimizes duplication on the most visible sections:
+
+| Photo | Used in |
+|-------|---------|
+| community-1.jpg | Homepage hero (right panel) |
+| community-2.jpg | Homepage testimonial background, Im-New narrative section |
+| community-3.jpg | Homepage community grid (small groups col), About small groups section |
+| community-4.jpg | Im-New page hero |
+| community-5.png | Community/News bento featured card, About AMC section |
+| community-6.jpg | Homepage community grid (retreats col), About page hero |
+| community-7.jpg | Homepage community grid (worship col), Community/News hero |
+
+**To add more photos:** drop new files in `/public/photos/` as `community-8.jpg`, `community-9.jpg`, etc., then swap in the page files to reduce reuse further.
 
 ### Staff Photos
-Download from the old site and save to `/public/photos/staff/`:
+Located at `/public/photos/staff/`:
 
-| File | Source URL |
-|------|-----------|
-| `sam-kim.jpg` | https://www.180church.tv/images/samkim.jpg |
-| `lydia-kim.jpg` | https://www.180church.tv/images/lydiakim.jpg |
-| `sarah-bennett.jpg` | https://www.180church.tv/images/sarah-bennett.jpg |
-| `stu-still.jpg` | https://www.180church.tv/images/stu-still.jpg |
-| `paul-lee.jpg` | https://www.180church.tv/images/Paul.jpg |
-| `grace-lee.jpg` | https://www.180church.tv/images/Grace.jpg |
+| File | Person |
+|------|--------|
+| `sam-kim.webp` | Rev. Dr. Sam D. Kim |
+| `lydia-kim.png` | Pastor Lydia Kim |
+| `sarah-bennett.jpg` | Sarah Bennett |
+| `stu-still.jpg` | Stewart Still (from IMG_7165.jpg) |
+| `paul-lee.jpg` | Paul Lee |
+| `grace-lee.jpg` | Grace Lee |
 
-Once photos are saved, uncomment the `<Image>` block inside `StaffPhoto` in `app/staff/page.tsx`.
+---
+
+## Content Management
+
+### Announcements / News
+Edit `data/announcements.ts` to add, update, or remove announcements. No CMS or deployment required.
+
+```ts
+// Structure:
+{
+  id: "unique-slug",
+  title: "Announcement Title",
+  date: "Month DD, YYYY",
+  body: "One or two sentences.",
+  tag: "General" | "Events" | "Small Groups" | "Prayer" | "Giving",
+  link: { href: "https://...", label: "Link Text" }  // optional
+}
+```
+
+The Community/News page (`/community`) automatically pulls the first 3 announcements for the staggered grid, and all announcements for the bento featured section.
 
 ---
 
@@ -204,19 +248,37 @@ Once photos are saved, uncomment the `<Image>` block inside `StaffPhoto` in `app
 ## Testimonial
 
 Homepage features a real quote from Jon (member since 2022):
-> "I came to 180 Church looking for a community where I could grow my faith. What I didn't expect was finding a family that made me feel like I was coming home. I found people to do life with."
+> "I came to 180 Church looking for a community where I could grow my faith. What I didn't expect was finding a family that made me feel like I was coming home."
 
 ---
 
 ## Deploying to Vercel
 
-1. Push the project to a GitHub repo
-2. Go to [vercel.com](https://vercel.com) → Import project from GitHub
-3. Deploy — Vercel gives a temporary URL like `180church.vercel.app`
-4. When ready to go live: add `180church.tv` as a custom domain in Vercel
-5. Update DNS records at your domain registrar to point to Vercel (instructions provided by Vercel)
+**Live URL:** https://180church.vercel.app
+**Vercel account:** `jonathandsahn-hue` (jonathandsahn-hues-projects)
+**GitHub repo:** https://github.com/jonathandsahn-hue/180-Church (branch: main)
 
-The current WordPress site stays live until DNS is switched.
+### Deploy command
+```bash
+cd /Users/jonathanahn/Desktop/180church
+npx vercel --prod
+```
+
+### Environment variables
+- `YOUTUBE_API_KEY` — stored in `.env.local` locally (not in git), and added to Vercel project env vars
+- To re-add if needed: `echo "<key>" | npx vercel env add YOUTUBE_API_KEY production`
+
+### Alias note
+After deploying, if the URL reverts to `180church-sandy.vercel.app`, run:
+```bash
+npx vercel alias set <new-deployment-url> 180church.vercel.app
+```
+Or fix permanently: Vercel dashboard → Settings → Domains → remove `180church-sandy.vercel.app`.
+
+### Go live with 180church.tv
+1. Vercel dashboard → 180church project → Settings → Domains → add `180church.tv`
+2. Update DNS at your domain registrar with the records Vercel provides
+3. WordPress site stays live until DNS propagates
 
 ---
 
@@ -232,11 +294,18 @@ The current WordPress site stays live until DNS is switched.
 
 ## What's Left
 
-- [ ] Download and add real community photos to `/public/photos/`
-- [ ] Download and add staff photos to `/public/photos/staff/` — then uncomment `<Image>` in `app/staff/page.tsx`
-- [ ] Pastor welcome section on homepage (pending approval from Sam/Lydia)
-- [ ] Deploy to Vercel
+- [x] Full editorial redesign — all 7 pages rebuilt
+- [x] Newsreader + Inter typography system
+- [x] Community/News page with dynamic announcements
+- [x] Staff photos — all 6 members have photos
+- [x] PayPal giving link confirmed
+- [x] Navbar updated ("News" label for /community route)
+- [x] All photos unique across every page — no cross-page reuse
+- [x] SermonLibrary component — Browse Archive shows real YouTube thumbnails (skips latest)
+- [x] Deployed to Vercel
+- [ ] Fix default alias in Vercel dashboard (remove `180church-sandy.vercel.app`)
 - [ ] Switch `180church.tv` DNS to Vercel
+- [ ] Record pastor welcome video and set PASTOR_VIDEO_ID in Vercel env vars
 
 ---
 
