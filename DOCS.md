@@ -302,7 +302,8 @@ Or fix permanently: Vercel dashboard → Settings → Domains → remove `180chu
 - [x] Navbar updated ("News" label for /community route)
 - [x] All photos unique across every page — no cross-page reuse
 - [x] SermonLibrary component — Browse Archive shows real YouTube thumbnails (skips latest)
-- [x] Deployed to Vercel
+- [x] Deployed to Vercel — https://180church.vercel.app
+- [x] GitHub pushed and in sync — github.com/jonathandsahn-hue/180-Church
 - [ ] Fix default alias in Vercel dashboard (remove `180church-sandy.vercel.app`)
 - [ ] Switch `180church.tv` DNS to Vercel
 - [ ] Record pastor welcome video and set PASTOR_VIDEO_ID in Vercel env vars
