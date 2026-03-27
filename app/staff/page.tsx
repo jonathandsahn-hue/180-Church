@@ -33,7 +33,7 @@ export default function StaffPage() {
           <div className="md:col-span-7">
             <div className="aspect-[4/5] overflow-hidden rounded-xl bg-gray-100 relative group">
               <Image
-                src="/photos/staff/sam-kim.webp"
+                src="/photos/staff/sam-kim.jpg"
                 alt="Rev. Dr. Sam D. Kim"
                 fill
                 className="object-cover object-[center_15%] grayscale hover:grayscale-0 transition-all duration-700"

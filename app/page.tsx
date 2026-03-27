@@ -125,7 +125,7 @@ export default function Home() {
             ) : (
               <div className="aspect-[4/5] overflow-hidden relative">
                 <Image
-                  src="/photos/staff/sam-kim.webp"
+                  src="/photos/staff/sam-kim.jpg"
                   alt="Pastor Sam D. Kim"
                   fill
                   className="object-cover object-top"
