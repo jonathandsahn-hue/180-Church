@@ -191,14 +191,12 @@ export default function ImNewPage() {
             Let us know you&apos;re coming and we&apos;ll have someone ready to welcome you at the door.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6 pt-4">
-            <a
-              href="https://maps.google.com/?q=890+Broadway+New+York+NY+10003"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/plan-a-visit"
               className="bg-[#1a1a2e] text-white px-10 py-4 text-lg font-medium hover:bg-[#29B9E8] transition-all duration-200"
             >
-              Get Directions
-            </a>
+              Plan a Visit
+            </Link>
             <a
               href="mailto:info@180church.tv"
               className="border border-[#1a1a2e] text-[#1a1a2e] px-10 py-4 text-lg font-medium hover:bg-[#1a1a2e] hover:text-white transition-all duration-200"

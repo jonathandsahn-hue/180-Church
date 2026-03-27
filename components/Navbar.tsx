@@ -40,7 +40,7 @@ export default function Navbar() {
             </Link>
           ))}
           <Link
-            href="/im-new"
+            href="/plan-a-visit"
             className="bg-brand-blue text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-brand-blue-dark transition-colors"
           >
             Plan a Visit
@@ -81,7 +81,7 @@ export default function Navbar() {
             </Link>
           ))}
           <Link
-            href="/im-new"
+            href="/plan-a-visit"
             className="bg-brand-blue text-white px-5 py-3 rounded-full text-sm font-semibold text-center hover:bg-brand-blue-dark transition-colors mt-2"
             onClick={() => setMenuOpen(false)}
           >
