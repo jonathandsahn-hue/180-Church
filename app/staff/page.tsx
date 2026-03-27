@@ -36,7 +36,7 @@ export default function StaffPage() {
                 src="/photos/staff/sam-kim.jpg"
                 alt="Rev. Dr. Sam D. Kim"
                 fill
-                className="object-cover object-[center_15%] grayscale hover:grayscale-0 transition-all duration-700"
+                className="object-cover object-[center_15%]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
@@ -70,7 +70,7 @@ export default function StaffPage() {
                 src="/photos/staff/lydia-kim.png"
                 alt="Pastor Lydia Kim"
                 fill
-                className="object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
+                className="object-cover object-top"
               />
             </div>
             <h3 className="font-serif text-3xl font-semibold text-[#1a1a2e]">Pastor Lydia Kim</h3>
@@ -86,7 +86,7 @@ export default function StaffPage() {
                 src="/photos/staff/sarah-bennett.jpg"
                 alt="Sarah Bennett"
                 fill
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                className="object-cover"
               />
             </div>
             <h3 className="font-serif text-3xl font-semibold text-[#1a1a2e]">Sarah Bennett</h3>
@@ -125,7 +125,7 @@ export default function StaffPage() {
                   src={person.photo}
                   alt={person.name}
                   fill
-                  className={`${person.position} grayscale hover:grayscale-0 transition-all duration-700`}
+                  className={person.position}
                 />
               </div>
               <div>
